@@ -5,7 +5,14 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-let postureStatusArray = [];
+let postureStatusArray = Array.from({ length: 50 }, () => 'good');
+
+// New route to reset array to "good" when ESP8266 connects
+app.post('/posture/reset', (req, res) => {
+    postureStatusArray = Array.from({ length: 50 }, () => 'good');
+    console.log('Posture status array reset to "good"');
+    res.json({ message: 'Posture array reset to good' });
+});
 
 app.post('/posture', (req, res) => {
     const status = req.body.status;
